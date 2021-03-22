@@ -15,7 +15,8 @@ _Wideresnet_: python train_wideresnet.py
 **PRETRAINED MODELS**
 
 **LRAT** WideResnet-34-10  https://drive.google.com/file/d/1r8mbv1TWB7Z9aDWCc8aap352nCWMo9_Q/view?usp=sharing
-=================================================================================================================
+
+
 **LRLLAT** WideResnet-34-10  https://drive.google.com/file/d/1JU2Wx8D0pnMXGC70BAtJOBV3XqldVbiz/view?usp=sharing
 
 
