@@ -76,6 +76,8 @@ def lrat_loss(model,
        loss = nat_loss + beta*(adv_loss/nat_loss)
     elif training_version == 'lrllat': 
        loss = nat_loss + beta*(adv_loss/nat_loss)+ 1.0*mse_loss(logits_adv, logits)
+    else:
+       loss = adv_loss  #defaults to standard AT
      
  
    
