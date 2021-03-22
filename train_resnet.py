@@ -260,7 +260,7 @@ def main():
     
     natural_acc = []
     robust_acc = []
-    rob_acc = 0.2500
+    rob_acc = 0.5400
     for epoch in range(1, args.epochs + 1):
         # adjust learning rate for SGD
         adjust_learning_rate(optimizer, epoch)
@@ -282,7 +282,7 @@ def main():
         print('================================================================')
         if  robust_err_total > rob_acc:
            rob_acc = robust_err_total
-           torch.save(model.state_dict(), '../SNART/snartcifar100-resnet-110-epoch.pt')
+           torch.save(model.state_dict(), '../SNART/snartcifar100-resnet-18-epoch.pt')
            # torch.save(optimizer.state_dict(), '../SNART/s7resnet-165.tar')
         
         file_name = os.path.join(log_dir, 'train_stats.npy')
