@@ -8,7 +8,10 @@ numpy
 
 
 Use the following commands to run the code:
-_ResNet-18_:  python train_resnet.py ,
+
+_ResNet-18_:  python train_resnet.py 
+
+
 _Wideresnet_: python train_wideresnet.py
 
 
