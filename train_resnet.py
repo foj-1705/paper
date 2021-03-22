@@ -24,7 +24,7 @@ import time
 parser = argparse.ArgumentParser(description='Robustness through Cross-Entropy Ratio')
 parser.add_argument('--batch-size', type=int, default=128, metavar='N',
                     help='input batch size for training (default: 128)')
-parser.add_argument('--test-batch-size', type=int, default=100, metavar='N',
+parser.add_argument('--test-batch-size', type=int, default=128, metavar='N',
                     help='input batch size for testing (default: 128)')
 parser.add_argument('--epochs', type=int, default=100, metavar='N',
                     help='number of epochs to train')
@@ -47,8 +47,8 @@ parser.add_argument('--beta', default=0.4,
 parser.add_argument('--training_version', default='lrat',
                     help = 'select lrat or lrllat')
 
-parser.add_argument('--seed', type=int, default=11, metavar='S',
-                    help='random seed (default: 11)')
+parser.add_argument('--seed', type=int, default=5, metavar='S',
+                    help='random seed (default: 5)')
 parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                     help='how many batches to wait before logging training status')
 parser.add_argument('--model', default='resnet',
