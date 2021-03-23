@@ -23,8 +23,21 @@ _Wideresnet_: python train_wideresnet.py
 **LRLLAT** WideResnet-34-10  https://drive.google.com/file/d/1JU2Wx8D0pnMXGC70BAtJOBV3XqldVbiz/view?usp=sharing
 
 
+ResNet-18
+| Method              	| PGD (%) 	| CW (%)| Natural Accuracy(%)
+|-----------------------|-----------------------|------------------|--------------------|
+| LRAT (Proposed)   		|  54.67%   	|     52.74  		|     82.96%            |
+| LRLLAT(Proposed)   		|  54.39%   	|     51.89  		|        81.69%             |
 
-Parts of the code were based on the following:
-TRADES: https://github.com/yaodongyu/TRADES ,
-MART: https://github.com/YisenWang/MART , and
-CAT: https://github.com/sunblaze-ucb/curriculum-adversarial-training-CAT
+
+
+
+
+
+Wideresnet-34-10
+| Method              	| PGD(%) 	|  CW(%) | Natural Accuracy(%) | AutoAttack(%)
+|-----------------------|-----------------------|------------------|-------------|--------------|
+| LRAT (Proposed)   		|  58.83   	|  86.70     		|        85.48     | 52.16      |
+| LRLLAT(Proposed)   		|  58.37  	|   86.65 		|           85.36       | 53.51      |
+
+  
