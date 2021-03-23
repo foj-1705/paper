@@ -157,8 +157,8 @@ def _pgd_whitebox(model,
         opt.zero_grad()
 
         with torch.enable_grad():
-           #loss = nn.CrossEntropyLoss()(model(X_pgd), y)
-           loss = cwloss(model(X_pgd), y)
+           loss = nn.CrossEntropyLoss()(model(X_pgd), y)
+           #loss = cwloss(model(X_pgd), y)
         loss.backward()
         eta = step_size * X_pgd.grad.data.sign()
         X_pgd = Variable(X_pgd.data + eta, requires_grad=True)
