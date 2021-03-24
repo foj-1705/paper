@@ -9,10 +9,10 @@ numpy
 
 Use the following commands to run the code:
 
-_ResNet-18_:  python train_resnet.py 
+**ResNet-18**:  python train_resnet.py 
 
 
-_Wideresnet_: python train_wideresnet.py
+**Wideresnet**: python train_wideresnet.py
 
 
 **PRETRAINED MODELS**
@@ -37,7 +37,7 @@ ResNet-18
 Wideresnet-34-10
 | Method              	| PGD(%) 	|  CW(%) | Natural Accuracy(%) | AutoAttack(%)
 |-----------------------|-----------------------|------------------|-------------|--------------|
-| LRAT (Proposed)   		|  58.83   	|  86.70     		|        85.48     | 52.16      |
-| LRLLAT(Proposed)   		|  58.37  	|   86.65 		|           85.36       | 53.51      |
+| LRAT (Proposed)   		|  58.83   	|  56.70     		|        85.48     | 52.16      |
+| LRLLAT(Proposed)   		|  58.37  	|   56.65 		|           85.36       | 53.51      |
 
   
