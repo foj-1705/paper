@@ -129,7 +129,7 @@ def adjust_learning_rate(optimizer, epoch):
     
 
 def cwloss(output, target, confidence=50,num_classes=10):
-        # we reused the implementation if the following repo:  CAT https://github.com/sunblaze-ucb/curriculum-adversarial-training-CAT
+        # we reused the implementation in the following repo:  CAT https://github.com/sunblaze-ucb/curriculum-adversarial-training-CAT
 
         # compute the probability of the label class versus the maximum other
         target = target.data
