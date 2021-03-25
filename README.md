@@ -6,8 +6,8 @@ Pytorch (0.4.1),
 CUDA, and
 numpy
 
-
-Use the following commands to run the code:
+**
+Use the following commands to run the code:**
 
 **ResNet-18**:  python train_resnet.py 
 
@@ -21,6 +21,7 @@ Use the following commands to run the code:
 
 
 **LRLLAT** WideResnet-34-10  https://drive.google.com/file/d/1JU2Wx8D0pnMXGC70BAtJOBV3XqldVbiz/view?usp=sharing
+**LRAT**  ResNet18 https://drive.google.com/file/d/1M7WSNrwnk3Jxvad0lrHFb8IfMo3UHuta/view?usp=sharing
 
 
 ResNet-18
