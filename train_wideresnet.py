@@ -17,12 +17,12 @@ import time
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-parser = argparse.ArgumentParser(description='LossRatio')
+parser = argparse.ArgumentParser(description='PyTorch CIFAR MART Defense')
 parser.add_argument('--batch-size', type=int, default=128, metavar='N',
                     help='input batch size for training (default: 128)')
-parser.add_argument('--test-batch-size', type=int, default=128, metavar='N',
+parser.add_argument('--test-batch-size', type=int, default=100, metavar='N',
                     help='input batch size for testing (default: 100)')
-parser.add_argument('--epochs', type=int, default=100, metavar='N',
+parser.add_argument('--epochs', type=int, default=90, metavar='N',
                     help='number of epochs to train')
 parser.add_argument('--weight-decay', '--wd', default=5e-4,
                     type=float, metavar='W')
@@ -39,12 +39,14 @@ parser.add_argument('--num-steps', default=10,
 parser.add_argument('--step-size', default=0.007,
                     help='perturb step size')
 parser.add_argument('--beta', default=0.4,
-                    help='regularization parameter')
+                    help='weight before kl (misclassified examples)')
+
 parser.add_argument('--training_version', default='lrat',
                     help = 'select lrat or lrllat')
 
-parser.add_argument('--seed', type=int, default=4, metavar='S',
-                    help='random seed (default: 4)')
+
+parser.add_argument('--seed', type=int, default=1, metavar='S',
+                    help='random seed (default: 1)')
 parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                     help='how many batches to wait before logging training status')
 parser.add_argument('--model', default='wideresnet',
@@ -121,23 +123,6 @@ def adjust_learning_rate(optimizer, epoch):
         lr = args.lr * 0.1
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
-
-
-def cwloss(output, target, confidence=50,num_classes=10):
-        # compute the probability of the label class versus the maximum other
-        # we reused the implementation if the following repo:  CAT https://github.com/sunblaze-ucb/curriculum-adversarial-training-CAT
-        target = target.data
-        target_onehot = torch.zeros(target.size() + (num_classes,))
-        target_onehot = target_onehot.cuda()
-        target_onehot.scatter_(1, target.unsqueeze(1), 1.)
-        target_var = Variable(target_onehot, requires_grad=False)
-        real = (target_var * output).sum(1)
-        other = ((1. - target_var) * output - target_var * 10000.).max(1)[0]
-        loss = -torch.clamp(real - other + confidence, min=0.)  # equiv to max(..., 0.)
-        loss = torch.sum(loss)
-        return loss
-
-
         
 def _pgd_whitebox(model,
                   X,
@@ -157,8 +142,7 @@ def _pgd_whitebox(model,
         opt.zero_grad()
 
         with torch.enable_grad():
-           loss = nn.CrossEntropyLoss()(model(X_pgd), y)
-           #loss = cwloss(model(X_pgd), y)
+            loss = nn.CrossEntropyLoss()(model(X_pgd), y)
         loss.backward()
         eta = step_size * X_pgd.grad.data.sign()
         X_pgd = Variable(X_pgd.data + eta, requires_grad=True)
@@ -167,27 +151,6 @@ def _pgd_whitebox(model,
         X_pgd = Variable(torch.clamp(X_pgd, 0, 1.0), requires_grad=True)
     err_pgd = (model(X_pgd).data.max(1)[1] != y.data).float().sum()
     return err, err_pgd
-
-
-
-def _fgsm_whitebox(model, X, y, epsilon = 0.031):
-    """ Construct FGSM adversarial examples on the examples X"""
-    delta = torch.zeros_like(X, requires_grad=True)
-    loss = nn.CrossEntropyLoss()(model(X + delta), y)
-    loss.backward()
-    deltasign =  epsilon * delta.grad.detach().sign()
-
-    out_f = model(X)
-    err_f = (out_f.data.max(1)[1] != y.data).float().sum()
-    x_adv = torch.clamp(X+deltasign, 0.0, 1.0)
-    out_fg = model(x_adv)
-
-    err_fg = (out_fg.data.max(1)[1] != y.data).float().sum()
-    return err_f, err_fg
-
-
-
-
 
 def eval_adv_test_whitebox(model, device, test_loader):
 
@@ -215,7 +178,6 @@ def main():
     
     natural_acc = []
     robust_acc = []
-    #rob_acc = 0.5600
     
     for epoch in range(1, args.epochs + 1):
         # adjust learning rate for SGD
@@ -236,13 +198,7 @@ def main():
         natural_acc.append(natural_err_total)
         robust_acc.append(robust_err_total)
         print('================================================================')
-        #rob_acc  = 1- robust_err_total / len(test_loader.dataset)
         
-        #if  robust_err_total > rob_acc:
-           #rob_acc = robust_err_total
-           #torch.save(model.state_dict(), '../SNART/snart04ms1pgd128-wideresnet-100.pth')
-           #torch.save(optimizer.state_dict(), '../SNART/cratwideresnet-21.tar')
-
         file_name = os.path.join(log_dir, 'train_stats.npy')
         np.save(file_name, np.stack((np.array(natural_acc), np.array(robust_acc))))        
 
@@ -253,9 +209,6 @@ def main():
             torch.save(optimizer.state_dict(),
                        os.path.join(model_dir, 'opt-res-checkpoint_epoch{}.tar'.format(epoch)))
 
-  # adversary = AutoAttack(model, norm='Linf', eps=8/255, version='custom', attacks_to_run=['apgd-ce', 'apgd-dlr'])
-  # adversary.apgd.n_restarts = 1
-  # x_adv = adversary.run_standard_evaluation(x_test, y_test)    
 
 if __name__ == '__main__':
     main()
