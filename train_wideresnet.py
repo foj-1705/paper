@@ -45,8 +45,8 @@ parser.add_argument('--training_version', default='lrat',
                     help = 'select lrat or lrllat')
 
 
-parser.add_argument('--seed', type=int, default=1, metavar='S',
-                    help='random seed (default: 1)')
+parser.add_argument('--seed', type=int, default=4, metavar='S',
+                    help='random seed (default: 4)')
 parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                     help='how many batches to wait before logging training status')
 parser.add_argument('--model', default='wideresnet',
