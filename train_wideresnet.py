@@ -17,7 +17,7 @@ import time
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-parser = argparse.ArgumentParser(description='PyTorch CIFAR MART Defense')
+parser = argparse.ArgumentParser(description='Loss Ratio Adversarial Training')
 parser.add_argument('--batch-size', type=int, default=128, metavar='N',
                     help='input batch size for training (default: 128)')
 parser.add_argument('--test-batch-size', type=int, default=100, metavar='N',
