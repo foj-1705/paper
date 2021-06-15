@@ -18,7 +18,7 @@ def lrat_loss(model,
               perturb_steps=10,
               distance='l_inf'):
     kl = nn.KLDivLoss(size_average=False)
-    model.eval()
+    model.train()
     
     criterion_kl = nn.KLDivLoss(size_average = False)
     batch_size = len(x_natural)
