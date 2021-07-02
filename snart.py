@@ -13,7 +13,7 @@ def lrat_loss(model,
               optimizer,
               training_version,
               beta = 0.4,
-              step_size=0.003,
+              step_size=0.007,
               epsilon=0.031,
               perturb_steps=10,
               distance='l_inf'):
